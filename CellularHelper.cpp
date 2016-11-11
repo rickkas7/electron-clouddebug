@@ -2,6 +2,9 @@
 
 #include "CellularHelper.h"
 
+// Updates to this code are here:
+// https://github.com/rickkas7/electron_cellular
+
 CellularHelperClass CellularHelper;
 
 
@@ -270,7 +273,7 @@ void CellularHelperEnvironmentCellData::addKeyValue(const char *key, const char 
 	}
 	else
 	if (strcmp(key, "LAC") == 0) {
-		mnc = (int) strtol(value, NULL, 16); // hex
+		lac = (int) strtol(value, NULL, 16); // hex
 	}
 	else
 	if (strcmp(key, "CI") == 0) {
