@@ -1,6 +1,6 @@
 # Electron Cloud Debug
 
-*Special code for debugging cloud connection issues with the Particle Photon and P1*
+*Special code for debugging cloud connection issues with the Particle Electron*
 
 ## What is this?
 
@@ -41,13 +41,13 @@ The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/m
 - You must have a working dfu-util
 
 
-## To Install - Photon
+## To Install - Electron
 
 Because both debug system firmware and user firmware are required to get full debugging information, and downloading and installing all three pieces manually is a pain, I have a combined binary that contains all three parts in a single file.
 
 > Technical note: This is actually system-part1, system-part2 (0.5.3) and the user firmware binary concatenated, with some padding, into a single file. It's not a monolithic binary, so you can actually flash new regular (modular) user firmware on top of it at 0x80A0000 or even OTA and it will work properly. Also, it does not contain the boot loader, so it can be flashed using dfu-util.
 
-Download the [combined-electron.bin](https://github.com/rickkas7/photon-clouddebug/raw/master/combined-electron.bin) file.
+Download the [combined-electron.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/combined-electron.bin) file.
 
 Put the Electron in DFU mode (blinking yellow) by pressing RESET and MODE. Release RESET and continue to hold down MODE while the LED blinks magenta until it blinks yellow, then release MODE.
 
