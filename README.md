@@ -79,3 +79,25 @@ Enter DFU (blinking yellow) mode again, then:
 ```
 particle update
 ```
+
+## Testing with a 3rd-party SIM card
+
+The pre-built binary only works with the Particle SIM card. If you are using a 3rd-party SIM card, the following technique can be used:
+
+- Make sure you've upgraded your Electron to 0.6.0 or later. Earlier versions of system firmware won't produce the necessary debugging information.
+
+- Open this project. It will open in Particle Build (Web IDE)
+
+[https://go.particle.io/shared_apps/596d04302f9ed102db000473](https://go.particle.io/shared_apps/596d04302f9ed102db000473)
+
+- Uncomment this line and edit it for your APN
+
+```
+STARTUP(cellular_credentials_set("broadband", "", "", NULL));
+```
+
+- Click on the Code icon (<>), then the cloud icon near the top of the pane next to the name to download the binary. Then flash this by USB.
+
+
+
+
