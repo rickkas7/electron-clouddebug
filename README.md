@@ -88,7 +88,7 @@ The pre-built binary only works with the Particle SIM card. If you are using a 3
 
 - Open this project. It will open in Particle Build (Web IDE)
 
-[https://go.particle.io/shared_apps/596d04302f9ed102db000473](https://go.particle.io/shared_apps/596d04302f9ed102db000473)
+[https://go.particle.io/shared_apps/59a00660475d3e181b0005d1](https://go.particle.io/shared_apps/59a00660475d3e181b0005d1)
 
 - Uncomment this line and edit it for your APN
 
