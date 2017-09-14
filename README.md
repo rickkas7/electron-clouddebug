@@ -13,8 +13,9 @@ This is a tool to debug cloud connection issues. It:
 - Does a DNS server lookup of the device server (device.spark.io)
 - Makes an actual cloud connection
 - Acts like Tinker after connecting 
+- Can print out information about nearby cellular towers
 
-Meanwhile, it uses a special debug version of the system firmware, so there's additional debugging information generated as well.
+It uses a special debug version of the system firmware, so there's additional debugging information generated as well.
 
 Here's a bit of the output log:
 
@@ -33,7 +34,7 @@ ping addr 8.8.8.8=1
     17.946 AT read OK    6 "\r\nOK\r\n"
 ```
 
-The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/master/clouddebug-electron.cpp) so you can see how it works, but you kind of have to have a gcc-arm local development environment to get the system debug feature.
+The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/master/clouddebug-electron.cpp) so you can see how it works. 
 
 ## Prerequisites 
 
@@ -43,9 +44,9 @@ The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/m
 
 ## To Install - Electron
 
-Because both debug system firmware and user firmware are required to get full debugging information, and downloading and installing all three pieces manually is a pain, I have a combined binary that contains all three parts in a single file.
+Because both debug system firmware and user firmware are required to get full debugging information, and downloading and installing all four pieces manually is a pain, I have a combined binary that contains all four parts (3 system and 1 user) in a single file.
 
-> Technical note: This is actually system-part1, system-part2 (0.5.3) and the user firmware binary concatenated, with some padding, into a single file. It's not a monolithic binary, so you can actually flash new regular (modular) user firmware on top of it at 0x80A0000 or even OTA and it will work properly. Also, it does not contain the boot loader, so it can be flashed using dfu-util.
+> Technical note: This is actually system-part1, system-part2, system-part3 (0.6.2 debug) and the user firmware binary concatenated, with some padding, into a single file. It's not a monolithic binary, so you can actually flash new regular (modular) user firmware on top of it at 0x80A0000 or even OTA and it will work properly. Also, it does not contain the boot loader, so it can be flashed using dfu-util.
 
 Download the [combined-electron.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/combined-electron.bin) file.
 
@@ -63,6 +64,33 @@ The Electron will restart. Immediately open a serial window. For example, using 
 particle serial monitor
 ```
 
+## Running Tests
+
+If you connect using particle serial monitor, the default options are used. If you want to use a custom APN, keep-alive, or do a cellular tower test, you need to use a terminal program that allows you to send USB serial data, such as:
+
+- PuTTY or CoolTerm (Windows)
+- screen (Mac or Linux)
+- Particle Dev (Atom IDE) Serial Monitor
+- Arduino serial monitor
+
+There's more information on using serial terminals [here](https://github.com/rickkas7/serial_tutorial).
+
+Once you connect to the serial terminal you can press Return or wait a few seconds and you should get a menu:
+
+```
+clouddebug: press letter corresponding to the command
+a - enter APN for 3rd-party SIM card
+k - set keep-alive value
+c - show carriers at this location
+t - run normal tests (occurs automatically after 10 seconds)
+```
+
+If you do nothing, the t option (run normal tests) is run, which behaves like the previous version of cloud debug.
+
+If you press c (show carriers at this location), the program will scan nearby towers and show the carriers, frequencies, and signal strength. This takes several minutes to run, which is why it's not done by default.
+
+If you are using a 3rd-party SIM card, you can set the APN and keep-alive values using the a and k options, respectively.
+
 
 ## To Remove
 
@@ -79,25 +107,4 @@ Enter DFU (blinking yellow) mode again, then:
 ```
 particle update
 ```
-
-## Testing with a 3rd-party SIM card
-
-The pre-built binary only works with the Particle SIM card. If you are using a 3rd-party SIM card, the following technique can be used:
-
-- Make sure you've upgraded your Electron to 0.6.0 or later. Earlier versions of system firmware won't produce the necessary debugging information.
-
-- Open this project. It will open in Particle Build (Web IDE)
-
-[https://go.particle.io/shared_apps/59a00660475d3e181b0005d1](https://go.particle.io/shared_apps/59a00660475d3e181b0005d1)
-
-- Uncomment this line and edit it for your APN
-
-```
-STARTUP(cellular_credentials_set("broadband", "", "", NULL));
-```
-
-- Click on the Code icon (<>), then the cloud icon near the top of the pane next to the name to download the binary. Then flash this by USB.
-
-
-
 
