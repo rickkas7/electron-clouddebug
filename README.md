@@ -64,6 +64,8 @@ The Electron will restart. Immediately open a serial window. For example, using 
 particle serial monitor
 ```
 
+For Windows 10, to copy and paste out of the Command Prompt window, press Control-M (Mark), click and the end and drag to the beginning of where you want to copy. Then press Enter to copy the text.
+
 ## Running Tests
 
 If you connect using particle serial monitor, the default options are used. If you want to use a custom APN, keep-alive, or do a cellular tower test, you need to use a terminal program that allows you to send USB serial data, such as:
