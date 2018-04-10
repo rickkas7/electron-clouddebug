@@ -41,8 +41,29 @@ The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/m
 - You should have the [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli/electron/) installed
 - You must have a working dfu-util
 
+## To Install - Electron 0.7.0
 
-## To Install - Electron
+If you are running system firmware 0.7.0 or later: 
+
+Download the [firmware.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/firmware.bin) file.
+
+Put the Electron in DFU mode (blinking yellow) by pressing RESET and MODE. Release RESET and continue to hold down MODE while the LED blinks magenta until it blinks yellow, then release MODE.
+
+Issue the command:
+
+```
+particle flash --usb firmware.bin
+```
+
+The Electron will restart. Immediately open a serial window. For example, using the CLI:
+
+```
+particle serial monitor
+```
+
+For Windows 10, to copy and paste out of the Command Prompt window, press Control-M (Mark), click and the end and drag to the beginning of where you want to copy. Then press Enter to copy the text.
+
+## To Install - Electron 0.6.x and earlier
 
 Because both debug system firmware and user firmware are required to get full debugging information, and downloading and installing all four pieces manually is a pain, I have a combined binary that contains all four parts (3 system and 1 user) in a single file.
 
