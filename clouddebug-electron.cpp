@@ -19,11 +19,13 @@ int tinkerDigitalRead(String pin);
 int tinkerDigitalWrite(String command);
 int tinkerAnalogRead(String pin);
 int tinkerAnalogWrite(String command);
+void buttonHandler();
 void enableTraceLogging();
 void runModemTests();
 void runCellularTests();
 void runTowerTest();
 void printCellData(CellularHelperEnvironmentCellData *data);
+
 
 /* Constants -----------------------------------------------------------------*/
 const unsigned long STARTUP_WAIT_TIME_MS = 5000;
@@ -48,11 +50,14 @@ CellularHelperEnvironmentResponseStatic<32> envResp;
 size_t inputBufferOffset;
 char inputBuffer[INPUT_BUF_SIZE];
 int keepAlive = 0;
+bool buttonClicked = false;
 
 /* This function is called once at start up ----------------------------------*/
 void setup()
 {
 	Serial.begin(9600);
+
+	System.on(button_click, buttonHandler);
 
 	// When using a 3rd-party SIM card, be sure to set the keepAlive
 	//Particle.keepAlive(60);
@@ -87,11 +92,21 @@ void loop() {
 		Serial.println("k - set keep-alive value");
 		Serial.println("c - show carriers at this location");
 		Serial.println("t - run normal tests (occurs automatically after 10 seconds)");
+		Serial.println("or tap the MODE button once to show carriers");
 		state = COMMAND_WAIT_STATE;
 		stateTime = millis();
 		break;
 
 	case COMMAND_WAIT_STATE:
+		if (buttonClicked) {
+			buttonClicked = false;
+
+			Serial.printlnf("starting carrier report...");
+			postCellularOnState = TOWER_REPORT_STATE;
+			state = CELLULAR_ON_STATE;
+			stateTime = millis();
+		}
+		else
 		if (millis() - stateTime >= COMMAND_WAIT_TIME_MS) {
 			// No command entered in the timeout time
 			Serial.printlnf("starting tests...");
@@ -283,6 +298,10 @@ void loop() {
 
 	}
 
+}
+
+void buttonHandler() {
+	buttonClicked = true;
 }
 
 void enableTraceLogging() {

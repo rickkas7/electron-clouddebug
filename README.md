@@ -38,14 +38,13 @@ The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/m
 
 ## Prerequisites 
 
-- You should have the [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli/electron/) installed
-- You must have a working dfu-util
+- You should have the [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli/electron/) installed.
 
-## To Install - Electron 0.7.0
+## To Install - Electron 0.6.0 and later:
 
-If you are running system firmware 0.7.0 or later: 
+If you are running Particle device OS 0.6.0 or later: 
 
-Download the [firmware.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/firmware.bin) file.
+Download the [firmware.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/firmware.bin) file. Click on that link and then the Download button on the page that displays, don't just right click and Save Link As.
 
 Put the Electron in DFU mode (blinking yellow) by pressing RESET and MODE. Release RESET and continue to hold down MODE while the LED blinks magenta until it blinks yellow, then release MODE.
 
@@ -63,33 +62,32 @@ particle serial monitor
 
 For Windows 10, to copy and paste out of the Command Prompt window, press Control-M (Mark), click and the end and drag to the beginning of where you want to copy. Then press Enter to copy the text.
 
-## To Install - Electron 0.6.x and earlier
+## To Install - Electron 0.5.x earlier
 
-Because both debug system firmware and user firmware are required to get full debugging information, and downloading and installing all four pieces manually is a pain, I have a combined binary that contains all four parts (3 system and 1 user) in a single file.
-
-> Technical note: This is actually system-part1, system-part2, system-part3 (0.6.2 debug) and the user firmware binary concatenated, with some padding, into a single file. It's not a monolithic binary, so you can actually flash new regular (modular) user firmware on top of it at 0x80A0000 or even OTA and it will work properly. Also, it does not contain the boot loader, so it can be flashed using dfu-util.
-
-Download the [combined-electron.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/combined-electron.bin) file.
+The cloud debug requires Particle Device OS 0.6.0 or later. If you have an Electron with the factory default of 0.5.x on it still, you'll need to upgrade the Device OS.
 
 Put the Electron in DFU mode (blinking yellow) by pressing RESET and MODE. Release RESET and continue to hold down MODE while the LED blinks magenta until it blinks yellow, then release MODE.
 
 Issue the command:
 
 ```
-dfu-util -d 2b04:d00a -a 0 -s 0x8020000:leave -D combined-electron.bin
+particle update
 ```
 
-The Electron will restart. Immediately open a serial window. For example, using the CLI:
+Then proceed as above for installing in 0.6.0 and later.
 
-```
-particle serial monitor
-```
+## Doing a carrier scan
 
-For Windows 10, to copy and paste out of the Command Prompt window, press Control-M (Mark), click and the end and drag to the beginning of where you want to copy. Then press Enter to copy the text.
+If you are stuck at blinking green, it can be helpful to do a tower or carrier scan to see if any towers are visible.
 
-## Running Tests
+Reset the Electron and immediately open the particle serial monitor.
 
-If you connect using particle serial monitor, the default options are used. If you want to use a custom APN, keep-alive, or do a cellular tower test, you need to use a terminal program that allows you to send USB serial data, such as:
+The Electron will breathe white. Tap the MODE button once and a carrier scan will begin. You must do this within the first 10 seconds of startup otherwise the normal tests will be done.
+
+
+## Running Advanced Tests
+
+If you connect using particle serial monitor, the default options are used. If you want to use a custom APN or keep-alive you need to use a terminal program that allows you to send USB serial data, such as:
 
 - PuTTY or CoolTerm (Windows)
 - screen (Mac or Linux)
@@ -106,6 +104,7 @@ a - enter APN for 3rd-party SIM card
 k - set keep-alive value
 c - show carriers at this location
 t - run normal tests (occurs automatically after 10 seconds)
+or tap the MODE button once to show carriers
 ```
 
 If you do nothing, the t option (run normal tests) is run, which behaves like the previous version of cloud debug.
@@ -117,17 +116,12 @@ If you are using a 3rd-party SIM card, you can set the APN and keep-alive values
 
 ## To Remove
 
-Using the Particle CLI, just update the system and user firmware binaries:
-
 Put the Electron in DFU mode (blinking yellow) by pressing RESET and SETUP. Release RESET and continue to hold down SETUP while the LED blinks magenta until it blinks yellow, then release SETUP.
 
 ```
 particle flash --usb tinker
 ```
 
-Enter DFU (blinking yellow) mode again, then:
+Or flash your own firmware instead.
 
-```
-particle update
-```
 
