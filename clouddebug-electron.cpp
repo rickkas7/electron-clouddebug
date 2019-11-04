@@ -507,6 +507,13 @@ void runTowerTest() {
 	envResp.clear();
 	envResp.enableDebug = true;
 
+	const char *model = CellularHelper.getModel().c_str();
+	if (strncmp(model, "SARA-R4", 7) == 0) {
+		Serial.println("Carrier report not available on LTE (SARA-R4)");
+		return;
+	}
+
+
 	Serial.println("looking up operators (this may take up to 3 minutes)...");
 
 

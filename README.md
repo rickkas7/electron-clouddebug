@@ -38,17 +38,24 @@ The source code is [here](https://github.com/rickkas7/electron-clouddebug/blob/m
 
 ## Prerequisites 
 
-- You should have the [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli/electron/) installed.
+- You should have the [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli/photon/) version 1.49.0 or later installed.
+- To update the CLI, use the command: `particle update-cli`.
 
-## To Install - Electron 0.6.0 and later:
+## To Install - Electron or E Series:
 
-If you are running Particle device OS 0.6.0 or later: 
+If your Electron or E Series is not running Device OS 1.4.2 or later you should upgrade. If you're not sure, it doesn't hurt to do this step:
+
+Put the device in DFU mode (blinking yellow) by holding down RESET and MODE, releasing RESET while continuing to hold down MODE. The main status LED will blink magenta (blue and red at the same time), then yellow. Once blinking yellow, release SETUP.
+
+From a Command Prompt or Terminal window:
+
+```
+particle update
+```
 
 Download the [firmware.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/firmware.bin) file. Click on that link and then the Download button on the page that displays, don't just right click and Save Link As.
 
-Put the Electron in DFU mode (blinking yellow) by pressing RESET and MODE. Release RESET and continue to hold down MODE while the LED blinks magenta until it blinks yellow, then release MODE.
-
-Issue the command:
+If device is not blinking yellow, repeat the steps above to put it back in DFU mode, then:
 
 ```
 particle flash --usb firmware.bin
@@ -61,20 +68,6 @@ particle serial monitor
 ```
 
 For Windows 10, to copy and paste out of the Command Prompt window, press Control-M (Mark), click and the end and drag to the beginning of where you want to copy. Then press Enter to copy the text.
-
-## To Install - Electron 0.5.x earlier
-
-The cloud debug requires Particle Device OS 0.6.0 or later. If you have an Electron with the factory default of 0.5.x on it still, you'll need to upgrade the Device OS.
-
-Put the Electron in DFU mode (blinking yellow) by pressing RESET and MODE. Release RESET and continue to hold down MODE while the LED blinks magenta until it blinks yellow, then release MODE.
-
-Issue the command:
-
-```
-particle update
-```
-
-Then proceed as above for installing in 0.6.0 and later.
 
 ## Doing a carrier scan
 
