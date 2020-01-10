@@ -53,12 +53,12 @@ From a Command Prompt or Terminal window:
 particle update
 ```
 
-Download the [firmware.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/firmware.bin) file. Click on that link and then the Download button on the page that displays, don't just right click and Save Link As.
+Download the [electron.bin](https://github.com/rickkas7/electron-clouddebug/raw/master/electron.bin) file. Click on that link and then the Download button on the page that displays, don't just right click and Save Link As.
 
 If device is not blinking yellow, repeat the steps above to put it back in DFU mode, then:
 
 ```
-particle flash --usb firmware.bin
+particle flash --usb electron.bin
 ```
 
 The Electron will restart. Immediately open a serial window. For example, using the CLI:
