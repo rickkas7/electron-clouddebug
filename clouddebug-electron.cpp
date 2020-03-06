@@ -240,38 +240,6 @@ void loop() {
 			Serial.println("connected to cellular network!");
 			runCellularTests();
 
-			{
-				const char *addrStr = "8.8.8.8";
-
-				boolean ok = CellularHelper.ping(addrStr);
-				Serial.printlnf("ping addr %s=%d", addrStr, ok);
-			}
-
-			{
-				IPAddress addr;
-
-				addr = CellularHelper.dnsLookup("device.spark.io");
-				Serial.printlnf("device.spark.io=%s", addr.toString().c_str());
-
-				if (addr) {
-					// Ping will always fail
-					// int count = WiFi.ping(addr, 1);
-					// Serial.printlnf("ping addr %s=%d", addr.toString().c_str(), count);
-
-					// TCP connect is not a useful test for Electron, since it doesn't use TCP
-					/*
-					TCPClient client;
-					if (client.connect(addr, 5683)) {
-						Serial.println("connected to device server CoAP (testing connection only)");
-						client.stop();
-					}
-					else {
-						Serial.println("could not connect to device server by CoAP");
-					}
-					*/
-				}
-			}
-
 			Serial.println("connecting to cloud");
 			Particle.connect();
 		}
@@ -520,7 +488,6 @@ void runTowerTest() {
 	// Command may take up to 3 minutes to execute!
 	envResp.resp = Cellular.command(CellularHelperClass::responseCallback, (void *)&envResp, 360000, "AT+COPS=5\r\n");
 	if (envResp.resp == RESP_OK) {
-		envResp.postProcess();
 		envResp.logResponse();
 
 		copnResp.requestOperator(&envResp.service);
